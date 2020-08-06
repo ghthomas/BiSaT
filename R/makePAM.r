@@ -176,7 +176,7 @@ require(maptools)
         }
 
   if (returnPAM) {
-        if(clip_to_world=="none") {return(list(PAM=pres_ab, empty_behrman_raster))}
+        if(clip_to_world=="none") {return(list(pres_ab, empty_behrman_raster))}
         if(clip_to_world=="sampling" || clip_to_world=="liberal") {return(list(pres_ab, pres_ab_clip, empty_behrman_raster))}
     }
 
@@ -203,7 +203,7 @@ require(rasterVis)
 require(ggplot2)
 require(ggspatial)
   
-PAM_raster <- pam[[2]]
+PAM_raster <- pam[[length(pam)==3]]
 values(PAM_raster) <- rowSums(pam[[1]], na.rm=TRUE)
 PAM_raster@data@values[PAM_raster@data@values==0] <- NA 
 
