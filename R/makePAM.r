@@ -14,10 +14,6 @@
 #' @examples 
 #'
 #' @export
-#' 
-#' 
-#' 
-
 sf_to_pam <- function (sf_object, taxon_names=NULL, resolution=100, sampling="conservative", file_name=NULL, crs="+proj=cea +lat_ts=30 +units=km", clip_to_world="none", returnPAM=TRUE) {
 
 require(sf)
@@ -199,10 +195,6 @@ require(maptools)
 #' @examples 
 #'
 #' @export
-#' 
-#' 
-#' 
-
 pam_to_raster <- function(pam, plot_map=TRUE) {
   
 require(raster)
