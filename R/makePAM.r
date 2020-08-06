@@ -10,8 +10,8 @@
 #' @param clip_to_world One of "none", "sampling", or "liberal". None does no clipping and returns the full PAM. "sampling" and "liberal" sets grid cells with no land to NA.
 #' @param returnPAM logical. If `TRUE` the PAM is returned and can be used direction.
 #' @details TBC
-#' @return A list of two elements. The first element is the PAM and the second is an empty raster object with the same crs and extent as the PAM. This is needed for plotting the PAM as e.g. a species richness map.
-#' @examples 
+#' @return A list of two or three elements (if `clip_to_world=TRUE`). The first element is the clipped PAM (if `clip_to_world=TRUE`) or the unclipped PAM (if `clip_to_world=FALSE`) and the last element is an empty raster object with the same crs and extent as the PAM. This is needed for plotting the PAM as e.g. a species richness map.
+#' @examples  
 #'
 #' @export
 sf_to_pam <- function (sf_object, taxon_names=NULL, resolution=100, sampling="conservative", file_name=NULL, crs="+proj=cea +lat_ts=30 +units=km", clip_to_world="none", returnPAM=TRUE) {
@@ -171,13 +171,13 @@ require(maptools)
 
         if (clip_to_world=="sampling" || clip_to_world=="liberal"){
             print(paste("PAM complete, writing output to: ", file_name, "_clipped.rds", sep="")  )
-            saveRDS(list(pres_ab_clip, empty_behrman_raster) , file=paste(file_name,  "_clipped.rds", sep=""))
+            saveRDS(list(pres_ab, pres_ab_clip, empty_behrman_raster) , file=paste(file_name,  "_clipped.rds", sep=""))
             }
         }
 
   if (returnPAM) {
-        if(clip_to_world=="none") {return(pres_ab)}
-        if(clip_to_world=="sampling" || clip_to_world=="liberal") {return(list(PAM=pres_ab, PAM_clipped=pres_ab_clip))}
+        if(clip_to_world=="none") {return(list(PAM=pres_ab, empty_behrman_raster))}
+        if(clip_to_world=="sampling" || clip_to_world=="liberal") {return(list(pres_ab, pres_ab_clip, empty_behrman_raster))}
     }
 
 }
