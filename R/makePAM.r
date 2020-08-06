@@ -203,16 +203,17 @@ require(rasterVis)
 require(ggplot2)
 require(ggspatial)
   
-PAM_raster <- pam[[length(pam)==3]]
+PAM_raster <- pam[[length(pam)]]
 values(PAM_raster) <- rowSums(pam[[1]], na.rm=TRUE)
 PAM_raster@data@values[PAM_raster@data@values==0] <- NA 
 
 if (plot_map==TRUE) {
-  ggplot() +  
+  p <- ggplot() +  
   layer_spatial(PAM_raster) +
   scale_fill_continuous(name="Value", type = "viridis", na.value = NA) +
   theme(legend.position = "bottom") +
   guides(fill = guide_colourbar(barwidth = 20))
+  plot(p)
 }
 
 return(PAM_raster)
