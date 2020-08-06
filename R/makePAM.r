@@ -189,9 +189,9 @@ require(maptools)
 
 
 
-#' Presence-absence matrices
+#' Make raster object
 #'
-#' Creates a presence-absence matrix (PAM) from an sf object
+#' Creates a raster from a PAM
 #' @param pam a pam object produced by sf_to_pam
 #' @param plot_map logical. If `TRUE` plot the raster as a map
 #' @details TBC
