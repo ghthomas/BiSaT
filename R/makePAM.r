@@ -31,6 +31,7 @@ require(maptools)
         stop("Column of taxon_names must be defined as a character in the function call.")
     }
 
+   print("Projecting shape data...")
     maps_sf <- st_transform(sf_object, crs=crs)
     empty_behrman_raster <- raster(maps_sf, res=resolution)
     crs(empty_behrman_raster) <- crs
@@ -52,7 +53,7 @@ require(maptools)
     pres_ab <- matrix(NA, ncol=n_species, nrow=ncell(empty_behrman_raster))
     colnames(pres_ab) <- map_names
 
-
+    print("Projection complete. Creating map for each taxon.")
     for (i in 1:n_species) {
 
         current_map <- maps_sf %>% filter(.data[[taxon_names]]==map_names[i])   #####
