@@ -1,10 +1,3 @@
-# Resolution: grid cell size in km
-# Sampling: one of "conservative" (the default but not necessarily the best), "liberal", or a numeric value from 1:100
-# crs: define coordinate reference system (default is Behrman equal area)
-# clip_to_world: c("none", "sampling", "liberal")
-# returnPAM: logical, if TRUE the PAM is returned from the function
-# Note that if returnPAM=FALSE and file=NULL then the function will run but return nothing of any use.
-
 #' Presence-absence matrices
 #'
 #' Creates a presence-absence matrix (PAM) from an sf object
@@ -190,4 +183,44 @@ require(maptools)
         if(clip_to_world=="sampling" || clip_to_world=="liberal") {return(list(PAM=pres_ab, PAM_clipped=pres_ab_clip))}
     }
 
+}
+
+
+
+
+
+#' Presence-absence matrices
+#'
+#' Creates a presence-absence matrix (PAM) from an sf object
+#' @param pam a pam object produced by sf_to_pam
+#' @param plot_map logical. If `TRUE` plot the raster as a map
+#' @details TBC
+#' @return A a raster object.
+#' @examples 
+#'
+#' @export
+#' 
+#' 
+#' 
+
+pam_to_raster <- function(pam, plot_map=TRUE) {
+  
+require(raster)
+require(rasterVis)
+require(ggplot2)
+require(ggspatial)
+  
+PAM_raster <- pam[[2]]
+values(PAM_raster) <- rowSums(pam[[1]], na.rm=TRUE)
+PAM_raster@data@values[PAM_raster@data@values==0] <- NA 
+
+if (plot_map==TRUE) {
+  ggplot() +  
+  layer_spatial(PAM_raster) +
+  scale_fill_continuous(name="Value", type = "viridis", na.value = NA) +
+  theme(legend.position = "bottom") +
+  guides(fill = guide_colourbar(barwidth = 20))
+}
+
+return(PAM_raster)
 }
