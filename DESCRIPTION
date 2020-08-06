@@ -1,0 +1,5 @@
+Package: BiSaT
+Type: Package
+Title: Biodiversity in Space and Time
+Version: 0.0.1.0
+RoxygenNote: 7.1.1
