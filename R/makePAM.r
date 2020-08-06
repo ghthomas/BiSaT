@@ -191,20 +191,25 @@ require(maptools)
 #' Creates a raster from a PAM
 #' @param pam a pam object produced by sf_to_pam
 #' @param plot_map logical. If `TRUE` plot the raster as a map
+#' @param clipped logical. If `TRUE` will rasterise/plot a clipped PAM if a clipped PAM is present.
 #' @details TBC
 #' @return A a raster object.
 #' @examples 
 #'
 #' @export
-pam_to_raster <- function(pam, plot_map=TRUE) {
+pam_to_raster <- function(pam, plot_map=TRUE, clipped=TRUE) {
   
 require(raster)
 require(rasterVis)
 require(ggplot2)
 require(ggspatial)
   
+  if (length(pam)==3 & clipped==TRUE) { pam_rast <- pam[[2]]  }
+  if (length(pam)==3 & clipped==FALSE) { pam_rast <- pam[[1]]  }
+  if (length(pam)==2) { pam_rast <- pam[[1]]  }
+  
 PAM_raster <- pam[[length(pam)]]
-values(PAM_raster) <- rowSums(pam[[1]], na.rm=TRUE)
+values(PAM_raster) <- rowSums(pam_rast, na.rm=TRUE)
 PAM_raster@data@values[PAM_raster@data@values==0] <- NA 
 
 if (plot_map==TRUE) {
