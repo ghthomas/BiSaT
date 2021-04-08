@@ -191,6 +191,7 @@ require(maptools)
 #' Creates a raster from a PAM
 #' @param pam a pam object produced by sf_to_pam
 #' @param trait a vector of trait values. Must also include names should correspond to taxonomic units.
+#' @param FUN function to summarise trait data.
 #' @param plot_map logical. If `TRUE` plot the raster as a map
 #' @param clipped logical. If `TRUE` will rasterise/plot a clipped PAM if a clipped PAM is present.
 #' @details TBC
@@ -198,7 +199,7 @@ require(maptools)
 #' @examples 
 #'
 #' @export
-pam_to_raster2 <- function(pam, trait=NULL, FUN=mean, plot_map=TRUE, clipped=TRUE) {
+pam_to_raster <- function(pam, trait=NULL, FUN=mean, plot_map=TRUE, clipped=TRUE) {
   
 require(raster)
 require(rasterVis)
@@ -220,13 +221,10 @@ if (!is.null(trait)) {
   trait <-  trait[rownames(trait) %in% colnames(pam[[1]]),]
   idx <- match(colnames(pam[[1]]), names(trait))
   trait_space <- t(pam[[1]]) * trait[idx]
-  values(PAM_raster) <- apply(t(trait_space), 1, FUN=mean, na.rm=TRUE)
+  values(PAM_raster) <- apply(t(trait_space), 1, FUN=FUN, na.rm=TRUE)
   PAM_raster@data@values[PAM_raster@data@values==0] <- NA
   }
   
-  
-  
-
 if (plot_map==TRUE) {
   p <- ggplot() +  
   layer_spatial(PAM_raster) +
