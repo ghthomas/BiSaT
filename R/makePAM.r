@@ -191,6 +191,7 @@ require(maptools)
 #' Creates a raster from a PAM
 #' @param pam a pam object produced by sf_to_pam
 #' @param trait a vector of trait values. Must also include names should correspond to taxonomic units.
+#' @param names_column Integer or character specifying the number or name of the column containing species names to match to PAM.
 #' @param FUN function to summarise trait data.
 #' @param plot_map logical. If `TRUE` plot the raster as a map
 #' @param clipped logical. If `TRUE` will rasterise/plot a clipped PAM if a clipped PAM is present.
