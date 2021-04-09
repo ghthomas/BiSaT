@@ -199,7 +199,7 @@ require(maptools)
 #' @examples 
 #'
 #' @export
-pam_to_raster <- function(pam, trait=NULL, FUN=mean, plot_map=TRUE, clipped=TRUE) {
+pam_to_raster <- function(pam, trait=NULL, names_column=NULL, FUN=mean, plot_map=TRUE, clipped=TRUE) {
   
 require(raster)
 require(rasterVis)
@@ -218,8 +218,8 @@ if (is.null(trait)) {
 
 if (!is.null(trait)) {
   PAM_raster <- pam[[2]]
-  trait <-  trait[rownames(trait) %in% colnames(pam[[1]]),]
-  idx <- match(colnames(pam[[1]]), names(trait))
+  trait <-  trait[trait[,names_column] %in% colnames(pam[[1]]),]
+  idx <- match(colnames(pam[[1]]), trait[,names_column])
   trait_space <- t(pam[[1]]) * trait[idx]
   values(PAM_raster) <- apply(t(trait_space), 1, FUN=FUN, na.rm=TRUE)
   PAM_raster@data@values[PAM_raster@data@values==0] <- NA
