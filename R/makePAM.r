@@ -190,7 +190,8 @@ require(maptools)
 #'
 #' Creates a raster from a PAM
 #' @param pam a pam object produced by sf_to_pam
-#' @param trait a vector of trait values. Must also include names should correspond to taxonomic units.
+#' @param trait a matrix of trait values. Must include a column of trait data and a column with species names names that correspond to taxonomic units in the PAM.
+#' @param trait_column Integer or character specifying the number or name of the column containing trait data to be mapped.
 #' @param names_column Integer or character specifying the number or name of the column containing species names to match to PAM.
 #' @param FUN function to summarise trait data.
 #' @param plot_map logical. If `TRUE` plot the raster as a map
@@ -200,7 +201,7 @@ require(maptools)
 #' @examples 
 #'
 #' @export
-pam_to_raster <- function(pam, trait=NULL, names_column=NULL, FUN=mean, plot_map=TRUE, clipped=TRUE) {
+pam_to_raster <- function(pam, trait=NULL, trait_column=NULL, names_column=NULL, FUN=mean, plot_map=TRUE, clipped=TRUE) {
   
 require(raster)
 require(rasterVis)
@@ -221,7 +222,7 @@ if (!is.null(trait)) {
   PAM_raster <- pam[[2]]
   trait <-  trait[trait[,names_column] %in% colnames(pam[[1]]),]
   idx <- match(colnames(pam[[1]]), trait[,names_column])
-  trait_space <- t(pam[[1]]) * trait[idx,2]
+  trait_space <- t(pam[[1]]) * trait[idx,trait_column]
   values(PAM_raster) <- apply(t(trait_space), 1, FUN=FUN, na.rm=TRUE)
   PAM_raster@data@values[PAM_raster@data@values==0] <- NA
   }
