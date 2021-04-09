@@ -221,7 +221,7 @@ if (!is.null(trait)) {
   PAM_raster <- pam[[2]]
   trait <-  trait[trait[,names_column] %in% colnames(pam[[1]]),]
   idx <- match(colnames(pam[[1]]), trait[,names_column])
-  trait_space <- t(pam[[1]]) * trait[idx]
+  trait_space <- t(pam[[1]]) * trait[idx,2]
   values(PAM_raster) <- apply(t(trait_space), 1, FUN=FUN, na.rm=TRUE)
   PAM_raster@data@values[PAM_raster@data@values==0] <- NA
   }
