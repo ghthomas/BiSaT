@@ -21,7 +21,7 @@ require(dplyr)
 require(fasterize)
 require(raster)
 require(maptools)
-require(velox)
+#require(velox)
 require(stars)
 require(maptools)
 
